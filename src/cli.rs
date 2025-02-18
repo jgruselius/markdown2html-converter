@@ -56,10 +56,6 @@ pub struct CLIArgs {
     pub no_mathjax: bool,
 
     #[arg(long)]
-    #[arg(help = "Not allow to use CJK fonts")]
-    pub no_cjk_fonts: bool,
-
-    #[arg(long)]
     #[arg(help = "Specify the path of your custom CSS file")]
     pub css_path: Option<PathBuf>,
 

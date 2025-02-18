@@ -10,10 +10,7 @@ use lazy_static_include::lazy_static_include_str;
 
 lazy_static_include_str! {
     MARKDOWN_CSS => "resources/github-markdown.css",
-    FONT_CJK => "resources/font-cjk.css",
-    FONT_CJK_MONO => "resources/font-cjk-mono.css",
     GITHUB => "resources/github.css",
-    WEBFONT => "resources/webfont.js",
     HIGHLIGHT_CODE => "resources/highlight-code.js",
     MATH_JAX => "resources/mathjax.min.js",
     MATH_JAX_CONFIG => "resources/mathjax-config.js",
@@ -145,19 +142,9 @@ fn main() -> anyhow::Result<()> {
         if args.no_mathjax {
             false
         } else {
-            markdown_html.contains("#{{")
+            markdown_html.contains("$")
         }
     };
-
-    if !args.no_cjk_fonts {
-        html_minifier.digest("<style>").unwrap();
-        html_minifier.digest(*FONT_CJK).unwrap();
-        html_minifier.digest("</style>").unwrap();
-
-        html_minifier.digest("<style>").unwrap();
-        html_minifier.digest(*FONT_CJK_MONO).unwrap();
-        html_minifier.digest("</style>").unwrap();
-    }
 
     if has_code {
         html_minifier.digest("<script>").unwrap();
@@ -222,12 +209,6 @@ fn main() -> anyhow::Result<()> {
     html_minifier.digest("<article class=\"markdown-body\">").unwrap();
     html_minifier.digest(&markdown_html).unwrap();
     html_minifier.digest("</article>").unwrap();
-
-    if !args.no_cjk_fonts {
-        html_minifier.digest("<script>").unwrap();
-        html_minifier.digest(*WEBFONT).unwrap();
-        html_minifier.digest("</script>").unwrap();
-    }
 
     if has_code {
         html_minifier.digest("<script>").unwrap();
